@@ -30,5 +30,5 @@ export class PersonComponent {
   @Input() person!: Person;
 
   @ContentChild(PersonDirective, { read: TemplateRef })
-  personTemplateRef!: TemplateRef<unknown>;
+  personTemplateRef!: TemplateRef<PersonContext>;
 }
