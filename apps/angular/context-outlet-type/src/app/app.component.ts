@@ -1,15 +1,23 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListComponent } from './list.component';
 import { PersonComponent } from './person.component';
+import { PersonDirective } from './person.directive';
 
 @Component({
   standalone: true,
-  imports: [NgTemplateOutlet, PersonComponent, ListComponent],
+  imports: [
+    NgTemplateOutlet,
+    PersonComponent,
+    ListComponent,
+    PersonDirective,
+    JsonPipe,
+  ],
   selector: 'app-root',
   template: `
     <person [person]="person">
-      <ng-template #personRef let-name let-age="age">
+      <ng-template #personRef [appPerson] let-name let-age="age">
+        <div (click)="react()">Click me</div>
         {{ name }}: {{ age }}
       </ng-template>
     </person>
@@ -43,4 +51,8 @@ export class AppComponent {
     { name: 'Paris', country: 'France' },
     { name: 'Berlin', country: 'Germany' },
   ];
+
+  react() {
+    console.log('React!');
+  }
 }
