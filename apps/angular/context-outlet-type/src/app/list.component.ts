@@ -6,6 +6,7 @@ import {
   Input,
   TemplateRef,
 } from '@angular/core';
+import { ListTemplateContext, ListTemplateDirective } from './list.directive';
 
 @Component({
   selector: 'list',
@@ -17,7 +18,9 @@ import {
         *ngTemplateOutlet="
           listTemplateRef || emptyRef;
           context: { $implicit: item, appList: item, index: i }
-        "></ng-container>
+        ">
+        <!--^^^ type checking here thx to narrow type definition below -->
+      </ng-container>
     </div>
 
     <ng-template #emptyRef>No Template</ng-template>
@@ -27,6 +30,8 @@ import {
 export class ListComponent<TItem extends object> {
   @Input() list!: TItem[];
 
-  @ContentChild('listRef', { read: TemplateRef })
-  listTemplateRef!: TemplateRef<unknown>;
+  // TemplateRef<ListTemplateContext<TItem> is needed
+  // for type checking in *ngTemplateOutlet's context
+  @ContentChild(ListTemplateDirective, { read: TemplateRef })
+  listTemplateRef!: TemplateRef<ListTemplateContext<TItem>>;
 }

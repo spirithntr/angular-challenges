@@ -2,7 +2,7 @@ import { Directive } from '@angular/core';
 import { PersonContext } from './person.component';
 
 @Directive({
-  selector: '[appPerson]',
+  selector: 'ng-template[appPerson]',
   standalone: true,
 })
 export class PersonDirective {

@@ -1,6 +1,7 @@
 import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListComponent } from './list.component';
+import { ListTemplateDirective } from './list.directive';
 import { PersonComponent } from './person.component';
 import { PersonDirective } from './person.directive';
 
@@ -12,24 +13,31 @@ import { PersonDirective } from './person.directive';
     ListComponent,
     PersonDirective,
     JsonPipe,
+    ListTemplateDirective,
   ],
   selector: 'app-root',
   template: `
     <person [person]="person">
-      <ng-template #personRef [appPerson] let-name let-age="age">
+      <ng-template [appPerson] let-name let-age="age">
         <div (click)="react()">Click me</div>
         {{ name }}: {{ age }}
       </ng-template>
     </person>
 
     <list [list]="students">
-      <ng-template #listRef let-student let-i="index">
+      <ng-template [appList]="students" let-student let-i="index">
         {{ student.name }}: {{ student.age }} - {{ i }}
       </ng-template>
     </list>
 
     <list [list]="cities">
-      <ng-template #listRef let-city let-i="index">
+      <ng-template [appList]="cities" let-city let-i="index">
+        {{ city.country }}: {{ city.country }} - {{ i }}
+      </ng-template>
+    </list>
+
+    <list [list]="cities">
+      <ng-template *appList="cities as city; index as i">
         {{ city.name }}: {{ city.country }} - {{ i }}
       </ng-template>
     </list>
