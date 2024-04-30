@@ -11,7 +11,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
 @Component({
   selector: 'app-city-card',
   template: `
-    <app-card [list]="cities" (addNew)="addNew()" customClass="bg-light-green">
+    <app-card [list]="cities" (addNew)="addNew()" class="bg-light-blue">
       <img src="assets/img/city.png" width="200px" />
       <ng-template #rowRef let-city>
         <app-list-item (delete)="delete(city.id)">
@@ -22,6 +22,13 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
   `,
   standalone: true,
   imports: [CardComponent, ListItemComponent],
+  styles: [
+    `
+      .bg-light-blue {
+        background-color: rgba(0, 0, 250, 0.1);
+      }
+    `,
+  ],
 })
 export class CityCardComponent implements OnInit {
   cities: City[] = [];

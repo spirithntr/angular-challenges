@@ -11,10 +11,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
 @Component({
   selector: 'app-student-card',
   template: `
-    <app-card
-      (addNew)="addOne()"
-      [list]="students"
-      customClass="bg-light-green">
+    <app-card (addNew)="addOne()" [list]="students" class="bg-light-green">
       <img src="assets/img/student.webp" width="200px" />
       <ng-template #rowRef let-student>
         <app-list-item (delete)="delete(student.id)">
@@ -26,7 +23,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
   standalone: true,
   styles: [
     `
-      ::ng-deep .bg-light-green {
+      .bg-light-green {
         background-color: rgba(0, 250, 0, 0.1);
       }
     `,

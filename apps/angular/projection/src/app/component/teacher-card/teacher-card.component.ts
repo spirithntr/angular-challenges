@@ -14,7 +14,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
     <app-card
       (addNew)="addOne()"
       [list]="teachers$ | async"
-      customClass="bg-light-red">
+      class="bg-light-red">
       <img src="assets/img/teacher.png" width="200px" />
       <ng-template #rowRef let-teacher>
         <app-list-item (delete)="delete(teacher.id)">
@@ -25,7 +25,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
   `,
   styles: [
     `
-      ::ng-deep .bg-light-red {
+      .bg-light-red {
         background-color: rgba(250, 0, 0, 0.1);
       }
     `,
