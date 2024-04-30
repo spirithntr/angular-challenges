@@ -1,30 +1,26 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { CityStore } from '../../data-access/city.store';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
-  randStudent,
-  randTeacher,
-  randomCity,
-} from '../../data-access/fake-http.service';
-import { StudentStore } from '../../data-access/student.store';
-import { TeacherStore } from '../../data-access/teacher.store';
+  Component,
+  ContentChild,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import { CardType } from '../../model/card.model';
-import { ListItemComponent } from '../list-item/list-item.component';
 
 @Component({
   selector: 'app-card',
   template: `
-    <div
-      class="flex w-fit flex-col gap-3 rounded-md border-2 border-black p-4"
-      [class]="customClass">
-      <ng-content />
+    <div class="flex w-fit flex-col gap-3 rounded-md border-2 border-black p-4">
+      <ng-content select="img" />
 
       <section>
-        <app-list-item
-          *ngFor="let item of list"
-          [name]="item.firstName || item.name"
-          (delete)="onDelete($event)"
-          [id]="item.id"></app-list-item>
+        <ng-container *ngFor="let item of list">
+          <ng-template
+            [ngTemplateOutlet]="rowTemplate"
+            [ngTemplateOutletContext]="{ $implicit: item }"></ng-template>
+        </ng-container>
       </section>
 
       <button
@@ -35,41 +31,20 @@ import { ListItemComponent } from '../list-item/list-item.component';
     </div>
   `,
   standalone: true,
-  imports: [NgIf, NgFor, ListItemComponent],
+  imports: [NgIf, NgFor, NgTemplateOutlet],
 })
-export class CardComponent {
-  @Input() list: any[] | null = null;
+export class CardComponent<T> {
+  @Input() list: T[] | null = null;
   @Input() type!: CardType;
-  @Input() customClass = '';
+  @Output() addNew = new EventEmitter<void>();
 
   CardType = CardType;
 
-  constructor(
-    private teacherStore: TeacherStore,
-    private studentStore: StudentStore,
-    private cityStore: CityStore,
-  ) {}
+  @ContentChild('rowRef', { read: TemplateRef }) rowTemplate!: TemplateRef<{
+    $implicit: T;
+  }>;
 
   addNewItem() {
-    if (this.type === CardType.TEACHER) {
-      this.teacherStore.addOne(randTeacher());
-    } else if (this.type === CardType.STUDENT) {
-      this.studentStore.addOne(randStudent());
-    } else {
-      this.cityStore.addOne(randomCity());
-    }
-  }
-
-  onDelete(id: number) {
-    let store;
-    if (this.type === CardType.TEACHER) {
-      store = this.teacherStore;
-    } else if (this.type === CardType.STUDENT) {
-      store = this.studentStore;
-    } else {
-      store = this.cityStore;
-    }
-
-    store.deleteOne(id);
+    this.addNew.emit();
   }
 }
