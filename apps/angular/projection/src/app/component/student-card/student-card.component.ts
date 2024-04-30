@@ -7,13 +7,14 @@ import { StudentStore } from '../../data-access/student.store';
 import { Student } from '../../model/student.model';
 import { CardComponent } from '../../ui/card/card.component';
 import { ListItemComponent } from '../../ui/list-item/list-item.component';
+import { TempRefDirective } from '../../ui/ref.directive';
 
 @Component({
   selector: 'app-student-card',
   template: `
     <app-card (addNew)="addOne()" [list]="students" class="bg-light-green">
       <img src="assets/img/student.webp" width="200px" />
-      <ng-template #rowRef let-student>
+      <ng-template appTempRef let-student>
         <app-list-item (delete)="delete(student.id)">
           {{ student.firstName + ' ' + student.lastName }}
         </app-list-item>
@@ -28,7 +29,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
       }
     `,
   ],
-  imports: [CardComponent, ListItemComponent],
+  imports: [CardComponent, ListItemComponent, TempRefDirective],
 })
 export class StudentCardComponent implements OnInit {
   students: Student[] = [];

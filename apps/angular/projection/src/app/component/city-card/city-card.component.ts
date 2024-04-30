@@ -7,13 +7,14 @@ import {
 import { City } from '../../model/city.model';
 import { CardComponent } from '../../ui/card/card.component';
 import { ListItemComponent } from '../../ui/list-item/list-item.component';
+import { TempRefDirective } from '../../ui/ref.directive';
 
 @Component({
   selector: 'app-city-card',
   template: `
     <app-card [list]="cities" (addNew)="addNew()" class="bg-light-blue">
       <img src="assets/img/city.png" width="200px" />
-      <ng-template #rowRef let-city>
+      <ng-template appTempRef let-city>
         <app-list-item (delete)="delete(city.id)">
           {{ city.name }}
         </app-list-item>
@@ -21,7 +22,7 @@ import { ListItemComponent } from '../../ui/list-item/list-item.component';
     </app-card>
   `,
   standalone: true,
-  imports: [CardComponent, ListItemComponent],
+  imports: [CardComponent, ListItemComponent, TempRefDirective],
   styles: [
     `
       .bg-light-blue {

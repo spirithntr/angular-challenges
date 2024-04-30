@@ -8,6 +8,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { CardType } from '../../model/card.model';
+import { TempRefDirective } from '../ref.directive';
 
 @Component({
   selector: 'app-card',
@@ -40,7 +41,8 @@ export class CardComponent<T> {
 
   CardType = CardType;
 
-  @ContentChild('rowRef', { read: TemplateRef }) rowTemplate!: TemplateRef<{
+  @ContentChild(TempRefDirective, { read: TemplateRef })
+  rowTemplate!: TemplateRef<{
     $implicit: T;
   }>;
 
